@@ -1,0 +1,67 @@
+
+
+<p>Steelhead are found in the Columbia River on the border of Oregon and Washington. Steelhead are a salmonid species of fish that are born in freshwater rivers, migrate to the ocean and return to freshwater to spawn. The graphs below show the daily counts of steelhead passages at the Bonneville Dam from 1938 to 2019.</p>
+<p>Data from: Columbia River DART, Columbia Basin Research, University of Washington. (2019). Adult Passage Graphics &amp; Text. Available from <a href="http://www.cbr.washington.edu/dart/query/adult_graph_text" class="uri">http://www.cbr.washington.edu/dart/query/adult_graph_text</a></p>
+<p><img src="steelhead.jpg" /> <br> <strong>Figure 1.</strong> Steelhead migrating upstream <br> <em>Image Credit: <a href="https://www.critfc.org/fish-and-watersheds/columbia-river-fish-species/steelhead/">Christopher Lane, accessed from Columbia River Inter-Tribal Fish Commission</a></em></p>
+<div id="steelhead-time-series-plot" class="section level3">
+<h3>Steelhead Time-Series Plot</h3>
+<p>The time-series plot below displays the seasonality in steelhead salmon passages from 1938-2019. As can be interpreted from the graph, steelhead return to Bonneville Dam yearly as part of their annual migration.</p>
+<pre class="r"><code># clean up data: get rid of unnecessary columns
+fish_clean &lt;- fish_data %&gt;%
+  clean_names() %&gt;% 
+  select(c(&quot;year&quot;, &quot;mm_dd&quot;, &quot;value&quot;)) %&gt;% 
+  rename(fish_per_day = value)
+
+# Parse dates with lubridate
+fish_date &lt;- fish_clean %&gt;% 
+  mutate(ydm = paste(year, mm_dd)) %&gt;% 
+  mutate(ydm_date = lubridate::parse_date_time(ydm, &quot;ydm&quot;)) %&gt;% 
+  drop_na(ydm_date)
+
+# Make time-series graph
+ggplot(data = fish_date, aes(x = ydm_date, y = fish_per_day)) +
+  geom_line() +
+  theme_minimal() +
+  labs(title = &quot;Time-series graph of steelhead passages&quot;, 
+       x = &quot;Date&quot;, 
+       y = &quot;Daily steelhead count&quot;)</code></pre>
+<p><img src="a2_task2_jd_files/figure-html/unnamed-chunk-1-1.png" width="672" /> <br> <strong>Figure 2.</strong> Steelhead counts reported daily from 1938-2020 at Bonneville Dam, OR.</p>
+</div>
+<div id="steelhead-seasonplot" class="section level3">
+<h3>Steelhead Seasonplot</h3>
+<p>The seasonplot below displays the total steelhead passages by month for years 1938-2019. As shown, steelhead counts peak from July to September as the fish migrate through Bonneville Dam.</p>
+<pre class="r"><code># Parse year and month separately to wrangle data for seasonplot
+fish_seasons &lt;-fish_date %&gt;% 
+  mutate(month = month(ydm_date, label = TRUE)) %&gt;% 
+  drop_na() %&gt;% 
+  group_by(year, month) %&gt;% 
+  summarize(total_fish = sum(fish_per_day))
+
+# Make a seasonplot
+ggplot(data = fish_seasons, aes(x = month, y = total_fish, group = year)) +
+  geom_line(aes(color = year)) +
+  theme_minimal() +
+  labs(title = &quot;Seasonplot of steelhead passage&quot;,
+       x = &quot;Month&quot;, 
+       y = &quot;Total monthly steelhead count&quot;) +
+  scale_y_continuous(labels = scales::comma)</code></pre>
+<p><img src="a2_task2_jd_files/figure-html/unnamed-chunk-2-1.png" width="672" /> <br> <strong>Figure 3.</strong> Seasonplot of total monthly steelhead passages at Bonneville Dam, OR. Each line represents one year from 1938-2019 with lighter shades of blue representing later years and darker blue representing earlier years.</p>
+</div>
+<div id="annual-steelhead-counts" class="section level3">
+<h3>Annual Steelhead Counts</h3>
+<p>The line graph below shows the total annual steelhead counts from 1938-2019. This graph shows that steelhead salmon increased in abundance overall between 1980 and 2010, but their populations have dropped markedly in the past decade.</p>
+<pre class="r"><code># Make summary table with annual counts for steelhead data
+fish_annual &lt;- fish_date %&gt;% 
+  drop_na() %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(total_fish = sum(fish_per_day))
+
+ggplot(data = fish_annual, aes(x = year, y = total_fish)) +
+  geom_line() +
+  theme_minimal() +
+  labs(title = &quot;Annual steelhead counts&quot;, 
+       x = &quot;Year&quot;, 
+       y = &quot;Total annual steelhead count&quot;) +
+  scale_y_continuous(labels = scales::comma)</code></pre>
+<p><img src="a2_task2_jd_files/figure-html/unnamed-chunk-3-1.png" width="672" /> <br> <strong>Figure 4.</strong> Line graph of total annual steelhead counts from 1938-2019 at Bonneville Dam.</p>
+</div>

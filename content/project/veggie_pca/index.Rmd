@@ -1,0 +1,81 @@
+---
+title: "Principal Components Analysis of Vegetable Nutrients"
+author: "Julia Dagum"
+date: "February 5, 2020"
+output: html_document
+---
+</br>
+Image Credit: [Getty Images, goodhousekeeping.com](https://www.goodhousekeeping.com/health/diet-nutrition/a48002/carrot-nutrition/)
+
+This project uses data from the U.S. Department of Agriculture's (USDA) [FoodData Central](https://fdc.nal.usda.gov/index.html) to conduct principal components analysis (PCA)  on nutrients found in vegetables. This analysis explores the relationships between some of the major nutrients found in the USDA food group categorized as "Vegetables and Vegetable Products". PCA displays multiple dimensions of data in a two-dimensional plane to display the relationships between different variables. 
+
+</br>
+
+```{r setup, include=TRUE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Attach packages
+
+library(tidyverse)
+library(janitor)
+library(naniar)
+library(VIM)
+library(skimr)
+library(ggfortify)
+library(here)
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+
+# Read in data
+
+food <- read_csv("usda_nutrients.csv") %>% 
+  clean_names()
+
+# Make a subset of the data and make sure there are no NA values
+
+food_sub <- food %>%
+  filter(food_group == "Vegetables and Vegetable Products") %>% 
+  select(energy_kcal:fiber_g) %>% 
+  drop_na()
+
+# Run principal components analysis 
+
+veggie_pca <- prcomp(food_sub, scale = TRUE)
+
+# Make a biplot of the data and rename loadings
+
+loadings_names <- c("Energy (kcal)", "Protein (g)", "Fat (g)", "Carbohydrates (g)", "Sugar (g)", "Fiber (g)")
+
+veggie_biplot <- autoplot(veggie_pca, 
+                      colour = NA, 
+                      loadings.label = TRUE,
+                      loadings.label.size = 3, 
+                      loadings.label.colour = "black", 
+                      loadings.label.repel = TRUE, 
+                      loadings.label.label = loadings_names) +
+  theme_minimal() +
+  labs(title = "Principal Components Analysis of Vegetable Nutrients")
+
+# Display the biplot
+
+veggie_biplot
+
+```
+</br>
+</br>
+_**Figure 1.** Biplot showing relationships between major nutrients found in the "Vegetables and Vegetable Products" food group of the USDA nutritional information dataset. Vectors pointing the same direction have a strong direct relationship, while vectors at a right angle have a very weak relationship or none at all._ 
+
+As shown in the biplot, the two principal components in this analysis account for about 72% of the variation in this data. 
+
+Some major takeaways can be observed from this biplot: 
+
+* Protein and calories have a strong direct relationship, showing that vegetables with more calories in this dataset tend to have higher amounts of protein. 
+
+* Carbohydrates and fiber have a somewhat positive relationship, showing that vegetables with more carbohydrates tend to have more fiber
+
+* Sugar and fat have no relationship to each other, showing that there is no correlation between sugar content and fat content in the vegetables in this dataset
+
+Data source: U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. fdc.nal.usda.gov.
+

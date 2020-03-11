@@ -1,0 +1,65 @@
+---
+title: "Principal Components Analysis of Vegetable Nutrients"
+author: "Julia Dagum"
+date: "February 5, 2020"
+output: html_document
+---
+
+
+
+<p></br> Image Credit: <a href="https://www.goodhousekeeping.com/health/diet-nutrition/a48002/carrot-nutrition/">Getty Images, goodhousekeeping.com</a></p>
+<p>This project uses data from the U.S. Department of Agriculture’s (USDA) <a href="https://fdc.nal.usda.gov/index.html">FoodData Central</a> to conduct principal components analysis (PCA) on nutrients found in vegetables. This analysis explores the relationships between some of the major nutrients found in the USDA food group categorized as “Vegetables and Vegetable Products”. PCA displays multiple dimensions of data in a two-dimensional plane to display the relationships between different variables.</p>
+<p></br></p>
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
+
+# Attach packages
+
+library(tidyverse)
+library(janitor)
+library(naniar)
+library(VIM)
+library(skimr)
+library(ggfortify)
+library(here)</code></pre>
+<pre class="r"><code># Read in data
+
+food &lt;- read_csv(&quot;usda_nutrients.csv&quot;) %&gt;% 
+  clean_names()
+
+# Make a subset of the data and make sure there are no NA values
+
+food_sub &lt;- food %&gt;%
+  filter(food_group == &quot;Vegetables and Vegetable Products&quot;) %&gt;% 
+  select(energy_kcal:fiber_g) %&gt;% 
+  drop_na()
+
+# Run principal components analysis 
+
+veggie_pca &lt;- prcomp(food_sub, scale = TRUE)
+
+# Make a biplot of the data and rename loadings
+
+loadings_names &lt;- c(&quot;Energy (kcal)&quot;, &quot;Protein (g)&quot;, &quot;Fat (g)&quot;, &quot;Carbohydrates (g)&quot;, &quot;Sugar (g)&quot;, &quot;Fiber (g)&quot;)
+
+veggie_biplot &lt;- autoplot(veggie_pca, 
+                      colour = NA, 
+                      loadings.label = TRUE,
+                      loadings.label.size = 3, 
+                      loadings.label.colour = &quot;black&quot;, 
+                      loadings.label.repel = TRUE, 
+                      loadings.label.label = loadings_names) +
+  theme_minimal() +
+  labs(title = &quot;Principal Components Analysis of Vegetable Nutrients&quot;)
+
+# Display the biplot
+
+veggie_biplot</code></pre>
+<p><img src="/project/veggie_pca/index_files/figure-html/unnamed-chunk-1-1.png" width="672" /> </br> </br> <em><strong>Figure 1.</strong> Biplot showing relationships between major nutrients found in the “Vegetables and Vegetable Products” food group of the USDA nutritional information dataset. Vectors pointing the same direction have a strong direct relationship, while vectors at a right angle have a very weak relationship or none at all.</em></p>
+<p>As shown in the biplot, the two principal components in this analysis account for about 72% of the variation in this data.</p>
+<p>Some major takeaways can be observed from this biplot:</p>
+<ul>
+<li><p>Protein and calories have a strong direct relationship, showing that vegetables with more calories in this dataset tend to have higher amounts of protein.</p></li>
+<li><p>Carbohydrates and fiber have a somewhat positive relationship, showing that vegetables with more carbohydrates tend to have more fiber</p></li>
+<li><p>Sugar and fat have no relationship to each other, showing that there is no correlation between sugar content and fat content in the vegetables in this dataset</p></li>
+</ul>
+<p>Data source: U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. fdc.nal.usda.gov.</p>
