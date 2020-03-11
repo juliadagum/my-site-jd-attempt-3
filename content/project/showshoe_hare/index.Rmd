@@ -1,0 +1,122 @@
+---
+title: "Snowshoe hare populations at Bonanza Creek, 1998 - 2012"
+author: "Julia Dagum"
+date: "February 5, 2020"
+output: html_document
+---
+
+This project examines the populations of snowshoe hares (*Lepus americanus*) from 1998-2012 at the Bonanza Creek Long Term Ecological Research (LTER) site in Alaska (data provided by Kielland, et al. 2017). Snowshoe hares are known to be an important prey species in the Boreal Forest biome. They serve as a food source for many predators including lynx, great-horned owls and golden eagles (National Park Service 2019). These predator-prey interactions caus snowshoe hare populations to fluctuate every 8-11 years (Kielland, et al. 2017).
+
+</br>
+
+![](featured.jpg) 
+
+_**Figure 1.** Snowshoe hare with white winter coat to camoflage in snow. Credit: [skeeze/Pixabay, justfunfacts.com](http://justfunfacts.com/interesting-facts-about-snowshoe-hares/)_
+
+Snowshoe hare populations are known to fluctuate with predator-prey cycles. Predators consume snowshoe hares, driving their population down. When hare populations drop, the predators' food source is limited, resulting in a decline of predator populations and subsequent increase in hare populations. These population cycles can be observed in the graph below.
+</br>
+</br>
+```{r setup, include=TRUE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(stringr)
+library(kableExtra)
+```
+
+```{r message = FALSE, warning=FALSE}
+
+# First, read in data
+
+snowshoe <- read_csv("showshoe_lter.csv")
+
+# Fix date column using lubridate and split into year, month and day as numeric classes for ease of wrangling data
+
+snowshoe_better <- snowshoe %>% 
+  mutate(new_date = mdy(date)) 
+
+# Do some data wrangling to make it easier to explore male and female snowshoe hare populations
+
+snowshoe_new <- snowshoe_better %>% 
+  mutate(year = lubridate::year(new_date), 
+          month = lubridate::month(new_date), 
+          day = lubridate::day(new_date)) %>% 
+  mutate(grid_new = str_replace(grid, "Bonbs", "bonbs")) %>% 
+  mutate(sex_new = str_to_lower(sex)) %>% 
+  mutate(month_round_down = floor_date(new_date, unit = "month")) %>% 
+  mutate(sex_new_m = str_replace_all(sex_new, "m", "Male")) %>% 
+  mutate(sex_new_all = str_replace_all(sex_new_m, "f", "Female"))
+
+# Make a summary table to wrangle data for graph of annual counts for male and female hares
+
+snowshoe_sum_year <- snowshoe_new %>% 
+  filter(sex_new == c("f", "m")) %>% 
+  group_by(year, sex_new) %>% 
+  summarize(mean_weight = mean(weight, na.rm = TRUE), 
+            count = n())
+
+# Make a line graph showing populations over time for male and female snowshoe hares
+
+ggplot() +
+  geom_line(data = snowshoe_sum_year, 
+            aes(x = year,
+                y = count,
+                color = sex_new), 
+            show.legend = TRUE, 
+            size = 0.9) +
+  scale_color_discrete(name = "Sex", 
+                       labels = c("Female", "Male")) +
+  labs(title = "Annual male and female snowshoe hare counts, 1998 - 2012",
+       x = "Year",
+       y = "Number of Snowshoe Hares") +
+  scale_x_continuous(limits = c(1998, 2012), 
+                     expand = c(0,0))+
+  scale_y_continuous(limits = c(0,150), expand = c(0, 0))+
+  theme_bw()+
+  theme(plot.caption = element_text(hjust = 0, face = "italic"))
+
+```
+</br>
+
+_**Figure 2.** Male and female snowshoe hare population sizes observed each year at Bonanza Creek LTER site from 1998 - 2012. Female counts shown in orange, male counts shown in blue._
+
+The table below shows mean weights and overall population counts for male and female snowshoe hares. Females are slightly larger than males and have a slightly larger population over the course of the study.
+</br>
+```{r}
+
+# Insert table with summary data
+
+# Look at mean weight, standard deviation and sample size for male and female hares over all years
+
+snowshoe_sum_table <- snowshoe_new %>% 
+  filter(sex_new == c("f", "m")) %>% 
+  group_by(sex_new_all) %>% 
+  summarize(mean_weight = mean(weight, na.rm = TRUE),
+            sd_weight = sd(weight, na.rm = TRUE),
+            count = n()) 
+
+# Make a nice looking table to display summary data for hare weights
+
+snowshoe_table_final <- 
+  kable(snowshoe_sum_table,
+        digits = 2,
+        col.names = c("Sex",
+                      "Mean Weight (g)",
+                      "Weight Standard Deviation (g)", 
+                      "Number of Individuals"),
+        caption = "Table 1. Mean weights in grams of male and female snowshoe hares found at Bonanza Creek LTER, 1998-2012.") %>% 
+  kable_styling(bootstrap_options = "striped", 
+                full_width = FALSE,
+                position = "left") %>% 
+  add_header_above(c("Snowshoe Hare Weights" = 4))
+
+snowshoe_table_final
+
+```
+
+Sources: 
+
+Kielland K., F. S. Chapin, R. W. Ruess. 2017. Snowshoe hare physical data in Bonanza Creek Experimental Forest: 1999-Present. Environmental Data Initiative.
+
+“Snowshoe Hare (U.S. National Park Service).” National Parks Service, U.S. Department of the Interior, 2019, www.nps.gov/articles/snowshoe-hare.htm.
