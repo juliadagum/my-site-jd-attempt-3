@@ -5,8 +5,6 @@ date: "February 5, 2020"
 output: html_document
 ---
 
-_**Figure 1.** Snowshoe hare with white winter coat to camoflage in snow. Credit: [skeeze/Pixabay, justfunfacts.com](http://justfunfacts.com/interesting-facts-about-snowshoe-hares/)_
-
 This project examines the populations of snowshoe hares (*Lepus americanus*) from 1998-2012 at the Bonanza Creek Long Term Ecological Research (LTER) site in Alaska (data provided by Kielland, et al. 2017). Snowshoe hares are known to be an important prey species in the Boreal Forest biome. They serve as a food source for many predators including lynx, great-horned owls and golden eagles (National Park Service 2019). These predator-prey interactions caus snowshoe hare populations to fluctuate every 8-11 years (Kielland, et al. 2017).
 
 ### Snowshoe hare populations
@@ -118,3 +116,6 @@ Sources:
 Kielland K., F. S. Chapin, R. W. Ruess. 2017. Snowshoe hare physical data in Bonanza Creek Experimental Forest: 1999-Present. Environmental Data Initiative.
 
 “Snowshoe Hare (U.S. National Park Service).” National Parks Service, U.S. Department of the Interior, 2019, www.nps.gov/articles/snowshoe-hare.htm.
+
+Image Credit: 
+[skeeze/Pixabay, justfunfacts.com](http://justfunfacts.com/interesting-facts-about-snowshoe-hares/)

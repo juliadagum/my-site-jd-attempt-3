@@ -4,12 +4,9 @@ author: "Julia Dagum"
 date: "February 5, 2020"
 output: html_document
 ---
-</br>
-Image Credit: [Getty Images, goodhousekeeping.com](https://www.goodhousekeeping.com/health/diet-nutrition/a48002/carrot-nutrition/)
 
 This project uses data from the U.S. Department of Agriculture's (USDA) [FoodData Central](https://fdc.nal.usda.gov/index.html) to conduct principal components analysis (PCA)  on nutrients found in vegetables. This analysis explores the relationships between some of the major nutrients found in the USDA food group categorized as "Vegetables and Vegetable Products". PCA displays multiple dimensions of data in a two-dimensional plane to display the relationships between different variables. 
 
-</br>
 
 ```{r setup, include=TRUE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -77,5 +74,7 @@ Some major takeaways can be observed from this biplot:
 
 * Sugar and fat have no relationship to each other, showing that there is no correlation between sugar content and fat content in the vegetables in this dataset
 
+
 Data source: U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. fdc.nal.usda.gov.
 
+Image Credit: [Getty Images, goodhousekeeping.com](https://www.goodhousekeeping.com/health/diet-nutrition/a48002/carrot-nutrition/)

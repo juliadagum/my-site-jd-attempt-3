@@ -768,8 +768,6 @@ Figure 1: A fancy pie chart.
 
 
 &lt;p&gt;Steelhead are found in the Columbia River on the border of Oregon and Washington. Steelhead are a salmonid species of fish that are born in freshwater rivers, migrate to the ocean and return to freshwater to spawn. The graphs below show the daily counts of steelhead passages at the Bonneville Dam from 1938 to 2019.&lt;/p&gt;
-&lt;p&gt;Data from: Columbia River DART, Columbia Basin Research, University of Washington. (2019). Adult Passage Graphics &amp;amp; Text. Available from &lt;a href=&#34;http://www.cbr.washington.edu/dart/query/adult_graph_text&#34; class=&#34;uri&#34;&gt;http://www.cbr.washington.edu/dart/query/adult_graph_text&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;steelhead.jpg&#34; /&gt; &lt;br&gt; &lt;strong&gt;Figure 1.&lt;/strong&gt; Steelhead migrating upstream &lt;br&gt; &lt;em&gt;Image Credit: &lt;a href=&#34;https://www.critfc.org/fish-and-watersheds/columbia-river-fish-species/steelhead/&#34;&gt;Christopher Lane, accessed from Columbia River Inter-Tribal Fish Commission&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;div id=&#34;steelhead-time-series-plot&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Steelhead Time-Series Plot&lt;/h3&gt;
 &lt;p&gt;The time-series plot below displays the seasonality in steelhead salmon passages from 1938-2019. As can be interpreted from the graph, steelhead return to Bonneville Dam yearly as part of their annual migration.&lt;/p&gt;
@@ -831,6 +829,8 @@ ggplot(data = fish_annual, aes(x = year, y = total_fish)) +
        y = &amp;quot;Total annual steelhead count&amp;quot;) +
   scale_y_continuous(labels = scales::comma)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/project/steelhead_passages/index_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt; &lt;br&gt; &lt;strong&gt;Figure 4.&lt;/strong&gt; Line graph of total annual steelhead counts from 1938-2019 at Bonneville Dam.&lt;/p&gt;
+&lt;p&gt;Data from: Columbia River DART, Columbia Basin Research, University of Washington. (2019). Adult Passage Graphics &amp;amp; Text. Available from &lt;a href=&#34;http://www.cbr.washington.edu/dart/query/adult_graph_text&#34; class=&#34;uri&#34;&gt;http://www.cbr.washington.edu/dart/query/adult_graph_text&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Image Credit: &lt;a href=&#34;https://www.critfc.org/fish-and-watersheds/columbia-river-fish-species/steelhead/&#34;&gt;Christopher Lane, accessed from Columbia River Inter-Tribal Fish Commission&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -843,9 +843,7 @@ ggplot(data = fish_annual, aes(x = year, y = total_fish)) +
       <description>
 
 
-&lt;p&gt;&lt;/br&gt; Image Credit: &lt;a href=&#34;https://www.goodhousekeeping.com/health/diet-nutrition/a48002/carrot-nutrition/&#34;&gt;Getty Images, goodhousekeeping.com&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This project uses data from the U.S. Department of Agriculture’s (USDA) &lt;a href=&#34;https://fdc.nal.usda.gov/index.html&#34;&gt;FoodData Central&lt;/a&gt; to conduct principal components analysis (PCA) on nutrients found in vegetables. This analysis explores the relationships between some of the major nutrients found in the USDA food group categorized as “Vegetables and Vegetable Products”. PCA displays multiple dimensions of data in a two-dimensional plane to display the relationships between different variables.&lt;/p&gt;
-&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;knitr::opts_chunk$set(echo = TRUE)
 
 # Attach packages
@@ -899,6 +897,7 @@ veggie_biplot&lt;/code&gt;&lt;/pre&gt;
 &lt;li&gt;&lt;p&gt;Sugar and fat have no relationship to each other, showing that there is no correlation between sugar content and fat content in the vegetables in this dataset&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Data source: U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. fdc.nal.usda.gov.&lt;/p&gt;
+&lt;p&gt;Image Credit: &lt;a href=&#34;https://www.goodhousekeeping.com/health/diet-nutrition/a48002/carrot-nutrition/&#34;&gt;Getty Images, goodhousekeeping.com&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -911,7 +910,6 @@ veggie_biplot&lt;/code&gt;&lt;/pre&gt;
 &lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
 
 
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Figure 1.&lt;/strong&gt; Snowshoe hare with white winter coat to camoflage in snow. Credit: &lt;a href=&#34;http://justfunfacts.com/interesting-facts-about-snowshoe-hares/&#34;&gt;skeeze/Pixabay, justfunfacts.com&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;This project examines the populations of snowshoe hares (&lt;em&gt;Lepus americanus&lt;/em&gt;) from 1998-2012 at the Bonanza Creek Long Term Ecological Research (LTER) site in Alaska (data provided by Kielland, et al. 2017). Snowshoe hares are known to be an important prey species in the Boreal Forest biome. They serve as a food source for many predators including lynx, great-horned owls and golden eagles (National Park Service 2019). These predator-prey interactions caus snowshoe hare populations to fluctuate every 8-11 years (Kielland, et al. 2017).&lt;/p&gt;
 &lt;div id=&#34;snowshoe-hare-populations&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Snowshoe hare populations&lt;/h3&gt;
@@ -1061,6 +1059,7 @@ Male
 &lt;p&gt;Sources:&lt;/p&gt;
 &lt;p&gt;Kielland K., F. S. Chapin, R. W. Ruess. 2017. Snowshoe hare physical data in Bonanza Creek Experimental Forest: 1999-Present. Environmental Data Initiative.&lt;/p&gt;
 &lt;p&gt;“Snowshoe Hare (U.S. National Park Service).” National Parks Service, U.S. Department of the Interior, 2019, www.nps.gov/articles/snowshoe-hare.htm.&lt;/p&gt;
+&lt;p&gt;Image Credit: &lt;a href=&#34;http://justfunfacts.com/interesting-facts-about-snowshoe-hares/&#34;&gt;skeeze/Pixabay, justfunfacts.com&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
